@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
-import { AppBar, Toolbar, Typography, IconButton, Container, Box, Button, Tooltip, Fade, Paper, Snackbar, Link } from '@mui/material';
+import { AppBar, Toolbar, Typography, IconButton, Container, Box, Button, Tooltip, Fade, Paper, Link } from '@mui/material';
 import { GitHub, ContentCopy, Close } from '@mui/icons-material';
 import { FaDiscord, FaReact } from 'react-icons/fa';
 import { SiTypescript } from 'react-icons/si';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import 'tailwindcss/tailwind.css';
 import './index.css';
 
 const Header: React.FC = () => {
   const [open, setOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const [snackbarOpen, setSnackbarOpen] = useState(false);
 
   const handleDiscordClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -21,16 +22,23 @@ const Header: React.FC = () => {
     setTimeout(() => setAnchorEl(null), 300);
   };
 
-  const handleCopy = () => {
-    navigator.clipboard.writeText('732372080539992078');
-    setSnackbarOpen(true);
+  const showToast = (message: string, isBlue: boolean = false) => {
+    toast.success(message, {
+      position: "bottom-center",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+      className: isBlue ? 'blue-toast' : '',
+    });
   };
 
-  const handleSnackbarClose = (_?: React.SyntheticEvent | Event, reason?: string) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-    setSnackbarOpen(false);
+  const handleCopy = () => {
+    navigator.clipboard.writeText('732372080539992078');
+    showToast('ユーザーIDがコピーされました', true); // 青いトーストを表示
   };
 
   const getPopoverPosition = () => {
@@ -71,12 +79,12 @@ const Header: React.FC = () => {
           </IconButton>
         </Toolbar>
       </AppBar>
-      <Fade in={open} timeout={300}>
+      <Fade in={open}>
         <Paper
           style={{
             position: 'absolute',
-            top: top,
-            left: left,
+            top,
+            left,
             backgroundColor: '#1a202c',
             color: 'white',
             padding: '20px',
@@ -111,15 +119,17 @@ const Header: React.FC = () => {
           </Tooltip>
         </Paper>
       </Fade>
-      <Snackbar
-        anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'center',
-        }}
-        open={snackbarOpen}
-        autoHideDuration={3000}
-        onClose={handleSnackbarClose}
-        message="ユーザーIDがコピーされました"
+      <ToastContainer
+        position="bottom-center"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
       />
     </>
   );
@@ -135,14 +145,14 @@ const Profile: React.FC = () => (
         Hi, I'm iroha.
       </Typography>
       <Typography variant="h6" component="p" gutterBottom>
-        I specialize in Cybersecurity.
+        I'm majoring in cyber security
       </Typography>
       <Typography variant="h6" component="p" gutterBottom>
         Technical skills:
       </Typography>
       <Box display="flex" justifyContent="center" alignItems="center" mb={2}>
-        <FaReact size={40} style={{ marginRight: 10 }} />
-        <SiTypescript size={40} />
+        <FaReact size={40} style={{ marginRight: 10, color: 'skyblue' }} />
+        <SiTypescript size={40} style={{ color: '#3178c6' }} />
       </Box>
       <Typography variant="h6" component="p" gutterBottom>
         I am a student at Niigata Computer College.
@@ -151,8 +161,16 @@ const Profile: React.FC = () => (
         Mail: kss-23180001@nsgcl.jp
       </Typography>
       <Typography variant="h6" component="p" gutterBottom>
-        Events attended : <Link href="https://enog.jp/archives/2947" target="_blank" color="inherit">ENOG83 Meeting</Link>
+        Events attended:
       </Typography>
+      <Box component="ul" sx={{ listStyleType: 'none', padding: 0 }}>
+        <Box component="li" mb={1}>
+          <Link href="https://enog.jp/archives/2947" target="_blank" color="inherit" className="hover-effect">ENOG83 Meeting</Link>
+        </Box>
+        <Box component="li" mb={1}>
+          <Link href="https://www.ncc-net.ac.jp/blog/pickup/49686" target="_blank" color="inherit" className="hover-effect">高校生ICTカンファレンス2024 ファシリテーター</Link>
+        </Box>
+      </Box>
     </Container>
   </Box>
 );
