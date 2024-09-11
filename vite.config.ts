@@ -3,5 +3,5 @@ import react from '@vitejs/plugin-react';
 
 export default defineConfig({
   plugins: [react()],
-  base: '/iroha999.github.io/', // GitHubリポジトリ名に変更
+  base: '/', // GitHub Pages のルートディレクトリを使用する場合
 });
