@@ -1,32 +1,39 @@
-import React, { useState } from 'react';
-import { AppBar, Toolbar, Typography, IconButton, Container, Box, Button, Tooltip, Fade, Paper, Link, Card, CardContent } from '@mui/material';
-import { Grid } from '@mui/material';
+// 必要なライブラリとコンポーネントをインポート
+import React, { useState, useCallback } from 'react';
+import {
+  AppBar, Toolbar, Typography, IconButton, Container, Box, Button, Tooltip, Fade, Paper, Link, Card, CardContent, Grid
+} from '@mui/material';
 import { GitHub, ContentCopy, Close } from '@mui/icons-material';
 import { FaDiscord, FaReact } from 'react-icons/fa';
 import { SiTypescript } from 'react-icons/si';
 import { ToastContainer, toast } from 'react-toastify';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
-import 'react-toastify/dist/ReactToastify.css';
 import { motion } from 'framer-motion';
+import 'react-toastify/dist/ReactToastify.css';
 import 'tailwindcss/tailwind.css';
 import './index.css';
 
+// ヘッダーコンポーネントの定義
 const Header: React.FC = () => {
+  // ステートの定義
   const [open, setOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
-  const handleDiscordClick = (event: React.MouseEvent<HTMLElement>) => {
+  // Discordボタンがクリックされたときのハンドラー
+  const handleDiscordClick = useCallback((event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
     setOpen(true);
-  };
+  }, []);
 
-  const handleClose = () => {
+  // モーダルを閉じるハンドラー
+  const handleClose = useCallback(() => {
     setOpen(false);
     setTimeout(() => setAnchorEl(null), 300);
-  };
+  }, []);
 
-  const showToast = (message: string, isBlue: boolean = false) => {
+  // トーストメッセージを表示する関数
+  const showToast = useCallback((message: string, isBlue: boolean = false) => {
     toast.success(message, {
       position: "bottom-center",
       autoClose: 3000,
@@ -38,14 +45,16 @@ const Header: React.FC = () => {
       theme: "colored",
       className: isBlue ? 'blue-toast' : '',
     });
-  };
+  }, []);
 
-  const handleCopy = () => {
+  // ユーザーIDをクリップボードにコピーする関数
+  const handleCopy = useCallback(() => {
     navigator.clipboard.writeText('732372080539992078');
     showToast('ユーザーIDがコピーされました', true);
-  };
+  }, [showToast]);
 
-  const getPopoverPosition = () => {
+  // ポップオーバーの位置を計算する関数
+  const getPopoverPosition = useCallback(() => {
     if (!anchorEl) return { top: 0, left: 0 };
 
     const rect = anchorEl.getBoundingClientRect();
@@ -64,7 +73,7 @@ const Header: React.FC = () => {
     }
 
     return { top, left };
-  };
+  }, [anchorEl]);
 
   const { top, left } = getPopoverPosition();
 
@@ -139,6 +148,7 @@ const Header: React.FC = () => {
   );
 };
 
+// プロフィールコンポーネントの定義
 const Profile: React.FC = () => (
   <Box className="flex flex-col justify-center items-center bg-gray-900 text-white" style={{ minHeight: 'calc(100vh - 64px)', padding: '2rem 0' }}>
     <Container maxWidth="md">
@@ -246,12 +256,14 @@ const Profile: React.FC = () => (
   </Box>
 );
 
+// テーマの定義
 const theme = createTheme({
   typography: {
     fontFamily: 'JetBrains Mono, monospace',
   },
 });
 
+// アプリケーションのメインコンポーネント
 const App: React.FC = () => (
   <ThemeProvider theme={theme}>
     <CssBaseline />
