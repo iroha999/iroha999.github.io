@@ -1,10 +1,14 @@
 import React, { useState } from 'react';
-import { AppBar, Toolbar, Typography, IconButton, Container, Box, Button, Tooltip, Fade, Paper, Link } from '@mui/material';
+import { AppBar, Toolbar, Typography, IconButton, Container, Box, Button, Tooltip, Fade, Paper, Link, Card, CardContent } from '@mui/material';
+import { Grid } from '@mui/material';
 import { GitHub, ContentCopy, Close } from '@mui/icons-material';
 import { FaDiscord, FaReact } from 'react-icons/fa';
 import { SiTypescript } from 'react-icons/si';
 import { ToastContainer, toast } from 'react-toastify';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
 import 'react-toastify/dist/ReactToastify.css';
+import { motion } from 'framer-motion';
 import 'tailwindcss/tailwind.css';
 import './index.css';
 
@@ -38,7 +42,7 @@ const Header: React.FC = () => {
 
   const handleCopy = () => {
     navigator.clipboard.writeText('732372080539992078');
-    showToast('ユーザーIDがコピーされました', true); // 青いトーストを表示
+    showToast('ユーザーIDがコピーされました', true);
   };
 
   const getPopoverPosition = () => {
@@ -136,50 +140,124 @@ const Header: React.FC = () => {
 };
 
 const Profile: React.FC = () => (
-  <Box className="flex flex-col justify-center items-center bg-gray-900 text-white" style={{ minHeight: 'calc(100vh - 64px)' }}>
-    <Container maxWidth="sm" className="text-center">
-      <Typography variant="h2" component="h1" gutterBottom>
-        Profile
-      </Typography>
-      <Typography variant="h5" component="p" gutterBottom>
-        Hi, I'm iroha.
-      </Typography>
-      <Typography variant="h6" component="p" gutterBottom>
-        I'm majoring in cyber security
-      </Typography>
-      <Typography variant="h6" component="p" gutterBottom>
-        Technical skills:
-      </Typography>
-      <Box display="flex" justifyContent="center" alignItems="center" mb={2}>
-        <FaReact size={40} style={{ marginRight: 10, color: 'skyblue' }} />
-        <SiTypescript size={40} style={{ color: '#3178c6' }} />
-      </Box>
-      <Typography variant="h6" component="p" gutterBottom>
-        I am a student at Niigata Computer College.
-      </Typography>
-      <Typography variant="h6" component="p" gutterBottom>
-        Mail: kss-23180001@nsgcl.jp
-      </Typography>
-      <Typography variant="h6" component="p" gutterBottom>
-        Events attended:
-      </Typography>
-      <Box component="ul" sx={{ listStyleType: 'none', padding: 0 }}>
-        <Box component="li" mb={1}>
-          <Link href="https://enog.jp/archives/2947" target="_blank" color="inherit" className="hover-effect">ENOG83 Meeting</Link>
-        </Box>
-        <Box component="li" mb={1}>
-          <Link href="https://www.ncc-net.ac.jp/blog/pickup/49686" target="_blank" color="inherit" className="hover-effect">高校生ICTカンファレンス2024 ファシリテーター</Link>
-        </Box>
-      </Box>
+  <Box className="flex flex-col justify-center items-center bg-gray-900 text-white" style={{ minHeight: 'calc(100vh - 64px)', padding: '2rem 0' }}>
+    <Container maxWidth="md">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
+        <Typography variant="h2" component="h1" gutterBottom align="center">
+          Profile
+        </Typography>
+      </motion.div>
+
+      <Grid container spacing={5}>
+        <Grid item xs={12} md={6}>
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+          >
+            <Card raised className="bg-gray-800 text-white" style={{ height: '100%' }}>
+              <CardContent>
+                <Typography variant="h5" component="h2" gutterBottom>
+                  About Me
+                </Typography>
+                <Typography variant="body1" paragraph>
+                  Hi, I'm iroha. I'm majoring in cyber security.
+                </Typography>
+                <Typography variant="body1">
+                  I am a student at Niigata Computer College.
+                </Typography>
+              </CardContent>
+            </Card>
+          </motion.div>
+        </Grid>
+
+        <Grid item xs={12} md={6}>
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5, delay: 0.4 }}
+          >
+            <Card raised className="bg-gray-800 text-white" style={{ height: '100%' }}>
+              <CardContent>
+                <Typography variant="h5" component="h2" gutterBottom>
+                  Technical Skills
+                </Typography>
+                <Box display="flex" justifyContent="center" alignItems="center" mb={2}>
+                  <FaReact size={40} style={{ marginRight: 10, color: 'skyblue' }} />
+                  <SiTypescript size={40} style={{ color: '#3178c6' }} />
+                </Box>
+              </CardContent>
+            </Card>
+          </motion.div>
+        </Grid>
+
+        <Grid item xs={12}>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.6 }}
+          >
+            <Card raised className="bg-gray-800 text-white">
+              <CardContent>
+                <Typography variant="h5" component="h2" gutterBottom>
+                  Contact
+                </Typography>
+                <Typography variant="body1">
+                  Mail: kss-23180001@nsgcl.jp
+                </Typography>
+              </CardContent>
+            </Card>
+          </motion.div>
+        </Grid>
+
+        <Grid item xs={12}>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.8 }}
+          >
+            <Card raised className="bg-gray-800 text-white">
+              <CardContent>
+                <Typography variant="h5" component="h2" gutterBottom>
+                  Events Attended
+                </Typography>
+                <Box component="ul" sx={{ listStyleType: 'none', padding: 0 }}>
+                  <Box component="li" mb={1}>
+                    <Link href="https://enog.jp/archives/2947" target="_blank" color="inherit" className="hover-effect">
+                      ENOG83 Meeting
+                    </Link>
+                  </Box>
+                  <Box component="li" mb={1}>
+                    <Link href="https://www.ncc-net.ac.jp/blog/pickup/49686" target="_blank" color="inherit" className="hover-effect">
+                      高校生ICTカンファレンス2024 ファシリテーター
+                    </Link>
+                  </Box>
+                </Box>
+              </CardContent>
+            </Card>
+          </motion.div>
+        </Grid>
+      </Grid>
     </Container>
   </Box>
 );
 
+const theme = createTheme({
+  typography: {
+    fontFamily: 'JetBrains Mono, monospace',
+  },
+});
+
 const App: React.FC = () => (
-  <>
+  <ThemeProvider theme={theme}>
+    <CssBaseline />
     <Header />
     <Profile />
-  </>
+  </ThemeProvider>
 );
 
 export default App;
