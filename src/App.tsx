@@ -1,4 +1,3 @@
-// 必要なライブラリとコンポーネントをインポート
 import React, { useState, useCallback } from 'react';
 import {
   AppBar, Toolbar, Typography, IconButton, Container, Box, Button, Tooltip, Fade, Paper, Link, Card, CardContent, Grid
@@ -14,27 +13,27 @@ import 'react-toastify/dist/ReactToastify.css';
 import 'tailwindcss/tailwind.css';
 import './index.css';
 
-// ヘッダーコンポーネントの定義
+// ヘッダーコンポーネント
 const Header: React.FC = () => {
   // ステートの定義
-  const [open, setOpen] = useState(false);
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [open, setOpen] = useState(false); // モーダルの表示状態
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null); // ポップオーバーのアンカーエレメント
 
   // Discordボタンがクリックされたときのハンドラー
-  const handleDiscordClick = useCallback((event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
-    setOpen(true);
+  const handleDiscordClick = useCallback((event: React.MouseEvent<HTMLElement>) => { // イベントオブジェクトの型を指定
+    setAnchorEl(event.currentTarget); // アンカーエレメントをセット
+    setOpen(true); // モーダルを表示
   }, []);
 
   // モーダルを閉じるハンドラー
   const handleClose = useCallback(() => {
-    setOpen(false);
-    setTimeout(() => setAnchorEl(null), 300);
+    setOpen(false); // モーダルを非表示
+    setTimeout(() => setAnchorEl(null), 300); // アンカーエレメントをクリア 
   }, []);
 
   // トーストメッセージを表示する関数
-  const showToast = useCallback((message: string, isBlue: boolean = false) => {
-    toast.success(message, {
+  const showToast = useCallback((message: string, isBlue: boolean = false) => { 
+    toast.success(message, { // 成功メッセージを表示
       position: "bottom-center",
       autoClose: 3000,
       hideProgressBar: false,
@@ -49,34 +48,35 @@ const Header: React.FC = () => {
 
   // ユーザーIDをクリップボードにコピーする関数
   const handleCopy = useCallback(() => {
-    navigator.clipboard.writeText('732372080539992078');
-    showToast('ユーザーIDがコピーされました', true);
-  }, [showToast]);
+    navigator.clipboard.writeText('732372080539992078'); // クリップボードにコピー
+    showToast('ユーザーIDがコピーされました', true); // トーストメッセージを表示
+  }, [showToast]); // showToast関数を依存性配列に追加
 
   // ポップオーバーの位置を計算する関数
   const getPopoverPosition = useCallback(() => {
-    if (!anchorEl) return { top: 0, left: 0 };
+    if (!anchorEl) return { top: 0, left: 0 }; // アンカーエレメントが存在しない場合は初期値を返す
 
-    const rect = anchorEl.getBoundingClientRect();
-    const popoverWidth = 300;
-    const popoverHeight = 150;
-    const margin = 10;
+    const rect = anchorEl.getBoundingClientRect(); // アンカーエレメントの位置とサイズを取得
+    const popoverWidth = 300; // ポップオーバーの幅
+    const popoverHeight = 150; // ポップオーバーの高さ
+    const margin = 10; // マージン
 
-    let top = rect.bottom + margin;
-    let left = rect.left;
+    let top = rect.bottom + margin; // ポップオーバーの上端の位置
+    let left = rect.left; // ポップオーバーの左端の位置
 
-    if (left + popoverWidth > window.innerWidth) {
-      left = window.innerWidth - popoverWidth - margin;
+    if (left + popoverWidth > window.innerWidth) { // ポップオーバーが画面右端を超える場合
+      left = window.innerWidth - popoverWidth - margin; // ポップオーバーの左端を調整(右端に寄せる)
     }
-    if (top + popoverHeight > window.innerHeight) {
-      top = rect.top - popoverHeight - margin;
+    if (top + popoverHeight > window.innerHeight) { // ポップオーバーが画面下端を超える場合
+      top = rect.top - popoverHeight - margin; // ポップオーバーの上端を調整(上端に寄せる)
     }
 
-    return { top, left };
-  }, [anchorEl]);
+    return { top, left }; // 位置を返す
+  }, [anchorEl]); // anchorElを依存性配列に追加
 
-  const { top, left } = getPopoverPosition();
+  const { top, left } = getPopoverPosition(); // ポップオーバーの位置を取得
 
+  // JSXを返す
   return (
     <>
       <AppBar position="static" style={{ backgroundColor: '#1a202c' }}>
@@ -148,10 +148,10 @@ const Header: React.FC = () => {
   );
 };
 
-// プロフィールコンポーネントの定義
+// プロフィールコンポーネント
 const Profile: React.FC = () => (
-  <Box className="flex flex-col justify-center items-center bg-gray-900 text-white" style={{ minHeight: 'calc(100vh - 64px)', padding: '2rem 0' }}>
-    <Container maxWidth="md">
+  <Box className="flex flex-col justify-center items-center bg-gray-900 text-white" style={{ minHeight: 'calc(100vh - 64px)', padding: '2rem 0' }}>  
+    <Container maxWidth="md"> 
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
