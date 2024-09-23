@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import {
-  AppBar, Toolbar, Typography, IconButton, Container, Box, Button, Tooltip, Fade, Paper, Link, Card, CardContent, Grid
+  AppBar, Toolbar, Typography, IconButton, Container, Box, Button, Tooltip, Fade, Paper, Link, Card, CardContent, Grid, Modal
 } from '@mui/material';
 import { GitHub, ContentCopy, Close } from '@mui/icons-material';
 import { FaDiscord, FaReact } from 'react-icons/fa';
@@ -32,7 +32,7 @@ const Header: React.FC = () => {
   }, []);
 
   // トーストメッセージを表示する関数
-  const showToast = useCallback((message: string, isBlue: boolean = false) => { 
+  const showToast = useCallback((message: string, isBlue: boolean = false) => {
     toast.success(message, { // 成功メッセージを表示
       position: "bottom-center",
       autoClose: 3000,
@@ -149,112 +149,173 @@ const Header: React.FC = () => {
 };
 
 // プロフィールコンポーネント
-const Profile: React.FC = () => (
-  <Box className="flex flex-col justify-center items-center bg-gray-900 text-white" style={{ minHeight: 'calc(100vh - 64px)', padding: '2rem 0' }}>  
-    <Container maxWidth="md"> 
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-      >
-        <Typography variant="h2" component="h1" gutterBottom align="center">
-          Profile
-        </Typography>
-      </motion.div>
+const Profile: React.FC = () => {
+  const [open, setOpen] = useState(false);
 
-      <Grid container spacing={5}>
-        <Grid item xs={12} md={6}>
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-          >
-            <Card raised className="bg-gray-800 text-white" style={{ height: '100%' }}>
-              <CardContent>
-                <Typography variant="h5" component="h2" gutterBottom>
-                  About Me
-                </Typography>
-                <Typography variant="body1" paragraph>
-                  Hi, I'm iroha. I'm majoring in cyber security.
-                </Typography>
-                <Typography variant="body1">
-                  I am a student at Niigata Computer College.
-                </Typography>
-              </CardContent>
-            </Card>
-          </motion.div>
-        </Grid>
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
-        <Grid item xs={12} md={6}>
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5, delay: 0.4 }}
-          >
-            <Card raised className="bg-gray-800 text-white" style={{ height: '100%' }}>
-              <CardContent>
-                <Typography variant="h5" component="h2" gutterBottom>
-                  Technical Skills
-                </Typography>
-                <Box display="flex" justifyContent="center" alignItems="center" mb={2}>
-                  <FaReact size={40} style={{ marginRight: 10, color: 'skyblue' }} />
-                  <SiTypescript size={40} style={{ color: '#3178c6' }} />
-                </Box>
-              </CardContent>
-            </Card>
-          </motion.div>
-        </Grid>
+  return (
+    <Box className="flex flex-col justify-center items-center bg-gray-900 text-white" style={{ minHeight: 'calc(100vh - 64px)', padding: '2rem 0' }}>
+      <Container maxWidth="md">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          <Typography variant="h2" component="h1" gutterBottom align="center">
+            Profile
+          </Typography>
+        </motion.div>
 
-        <Grid item xs={12}>
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.6 }}
-          >
-            <Card raised className="bg-gray-800 text-white">
-              <CardContent>
-                <Typography variant="h5" component="h2" gutterBottom>
-                  Contact
-                </Typography>
-                <Typography variant="body1">
-                  Mail: kss-23180001@nsgcl.jp
-                </Typography>
-              </CardContent>
-            </Card>
-          </motion.div>
-        </Grid>
+        <Grid container spacing={5}>
+          <Grid item xs={12} md={6}>
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+            >
+              <Card raised className="bg-gray-800 text-white" style={{ height: '100%' }}>
+                <CardContent>
+                  <Typography variant="h5" component="h2" gutterBottom>
+                    About Me
+                  </Typography>
+                  <Typography variant="body1" paragraph>
+                    Hi, I'm iroha. I'm majoring in cyber security.
+                  </Typography>
+                  <Typography variant="body1">
+                    I am a student at Niigata Computer College.
+                  </Typography>
+                </CardContent>
+              </Card>
+            </motion.div>
+          </Grid>
 
-        <Grid item xs={12}>
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.8 }}
-          >
-            <Card raised className="bg-gray-800 text-white">
-              <CardContent>
-                <Typography variant="h5" component="h2" gutterBottom>
-                  Events Attended
-                </Typography>
-                <Box component="ul" sx={{ listStyleType: 'none', padding: 0 }}>
-                  <Box component="li" mb={1}>
-                    <Link href="https://enog.jp/archives/2947" target="_blank" color="inherit" className="hover-effect">
-                      ENOG83 Meeting
-                    </Link>
+          <Grid item xs={12} md={6}>
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5, delay: 0.4 }}
+            >
+              <Card raised className="bg-gray-800 text-white" style={{ height: '100%' }}>
+                <CardContent>
+                  <Typography variant="h5" component="h2" gutterBottom>
+                    Technical Skills
+                  </Typography>
+                  <Box display="flex" justifyContent="center" alignItems="center" mb={2}>
+                    <FaReact size={40} style={{ marginRight: 10, color: 'skyblue' }} />
+                    <SiTypescript size={40} style={{ color: '#3178c6' }} />
                   </Box>
-                  <Box component="li" mb={1}>
-                    <Link href="https://www.ncc-net.ac.jp/blog/pickup/49686" target="_blank" color="inherit" className="hover-effect">
-                      高校生ICTカンファレンス2024 ファシリテーター
-                    </Link>
+                </CardContent>
+              </Card>
+            </motion.div>
+          </Grid>
+
+          <Grid item xs={12}>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.6 }}
+            >
+              <Card raised className="bg-gray-800 text-white">
+                <CardContent>
+                  <Typography variant="h5" component="h2" gutterBottom>
+                    Contact
+                  </Typography>
+                  <Typography variant="body1">
+                    Mail: kss-23180001@nsgcl.jp
+                  </Typography>
+                </CardContent>
+              </Card>
+            </motion.div>
+          </Grid>
+
+          <Grid item xs={12}>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.8 }}
+            >
+              <Card raised className="bg-gray-800 text-white">
+                <CardContent>
+                  <Typography variant="h5" component="h2" gutterBottom>
+                    Events Attended
+                  </Typography>
+                  <Box component="ul" sx={{ listStyleType: 'none', padding: 0 }}>
+                    <Box component="li" mb={1}>
+                      <Link href="https://enog.jp/archives/2947" target="_blank" color="inherit" className="hover-effect">
+                        ENOG83 Meeting
+                      </Link>
+                    </Box>
+                    <Box component="li" mb={1}>
+                      <Link href="https://www.ncc-net.ac.jp/blog/pickup/49686" target="_blank" color="inherit" className="hover-effect">
+                        高校生ICTカンファレンス2024 ファシリテーター
+                      </Link>
+                    </Box>
                   </Box>
-                </Box>
-              </CardContent>
-            </Card>
-          </motion.div>
+                </CardContent>
+              </Card>
+            </motion.div>
+          </Grid>
+
+          <Grid item xs={12}>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 1.0 }}
+            >
+              <Card raised className="bg-gray-800 text-white">
+                <CardContent>
+                  <Typography variant="h5" component="h2" gutterBottom>
+                    Works
+                  </Typography>
+                  <Box component="ul" sx={{ listStyleType: 'none', padding: 0 }}>
+                    <Box component="li" mb={1}>
+                      <Link href="#" onClick={handleOpen} color="inherit" className="hover-effect">
+                        架空の企業HPの作成
+                      </Link>
+                    </Box>
+                  </Box>
+                </CardContent>
+              </Card>
+            </motion.div>
+          </Grid>
         </Grid>
-      </Grid>
-    </Container>
-  </Box>
-);
+      </Container>
+      <Modal open={open} onClose={handleClose}>
+        <Box
+          sx={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            width: '80%',
+            maxWidth: 600,
+            bgcolor: 'background.paper',
+            borderRadius: 4,
+            boxShadow: 24,
+            p: { xs: 2, sm: 4 },
+            overflow: 'hidden',
+          }}
+        >
+          <Typography variant="h6" component="h2" gutterBottom>
+            架空の企業HPの作成
+          </Typography>
+          <img src="./サムネイル.png" alt="サムネイル" style={{ width: '100%', marginBottom: '16px', borderRadius: '8px' }} />
+          <Typography variant="body1" gutterBottom sx={{wordBreak: 'break-all', whiteSpace: 'normal'}}>
+            URL: <Link href="https://iroha999.github.io/iroha999-company.github.io/index.html" target="_blank">https://iroha999.github.io/iroha999-company.github.io/index.html</Link>
+          </Typography>
+          <Typography variant="body1" gutterBottom>
+            技術スタック: HTML, CSS, JavaScript, Jquery, LightBox
+          </Typography>
+          <Typography variant="body1" paragraph>
+            作品の説明: この作品は、1年時の課題制作として作成した架空のデザイン会社のホームページです。<br />デザイン会社のウェブサイトをテーマに、企業情報、作品紹介、採用情報などのページを作成しました。ユーザーが必要な情報に簡単にアクセスできるように工夫しています。
+          </Typography>
+        </Box>
+      </Modal>
+    </Box>
+  );
+};
 
 // テーマの定義
 const theme = createTheme({
