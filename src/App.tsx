@@ -12,6 +12,8 @@ import { motion } from 'framer-motion';
 import 'react-toastify/dist/ReactToastify.css';
 import 'tailwindcss/tailwind.css';
 import './index.css';
+import TechStack from './components/TechStack';
+
 
 // ヘッダーコンポーネント
 const Header: React.FC = () => {
@@ -76,6 +78,9 @@ const Header: React.FC = () => {
 
   const { top, left } = getPopoverPosition(); // ポップオーバーの位置を取得
 
+
+
+
   // JSXを返す
   return (
     <>
@@ -84,12 +89,17 @@ const Header: React.FC = () => {
           <Typography variant="h5" style={{ flexGrow: 1 }}>
             iroha
           </Typography>
-          <IconButton color="inherit" href="https://github.com/iroha999">
-            <GitHub />
-          </IconButton>
-          <IconButton color="inherit" onClick={handleDiscordClick}>
-            <FaDiscord />
-          </IconButton>
+          <TechStack />
+          <Tooltip title="GitHub" arrow>
+            <IconButton color="inherit" href="https://github.com/iroha999">
+              <GitHub />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Discord" arrow>
+            <IconButton color="inherit" onClick={handleDiscordClick}>
+              <FaDiscord />
+            </IconButton>
+          </Tooltip>
         </Toolbar>
       </AppBar>
       <Fade in={open}>
@@ -302,7 +312,7 @@ const Profile: React.FC = () => {
             架空の企業HPの作成
           </Typography>
           <img src="./サムネイル.png" alt="サムネイル" style={{ width: '100%', marginBottom: '16px', borderRadius: '8px' }} />
-          <Typography variant="body1" gutterBottom sx={{wordBreak: 'break-all', whiteSpace: 'normal'}}>
+          <Typography variant="body1" gutterBottom sx={{ wordBreak: 'break-all', whiteSpace: 'normal' }}>
             URL: <Link href="https://iroha999.github.io/iroha999-company.github.io/index.html" target="_blank">https://iroha999.github.io/iroha999-company.github.io/index.html</Link>
           </Typography>
           <Typography variant="body1" gutterBottom>
