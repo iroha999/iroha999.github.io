@@ -244,7 +244,7 @@ const Profile: React.FC = () => {
                   <Box component="ul" sx={{ listStyleType: 'none', padding: 0 }}>
                     <Box component="li" mb={1}>
                       <Link href="https://enog.jp/archives/2947" target="_blank" color="inherit" className="hover-effect">
-                        ENOG83 Meeting
+                        ENOG83 Meeting 聴講参加
                       </Link>
                     </Box>
                     <Box component="li" mb={1}>
